@@ -1,0 +1,35 @@
+body {
+  margin: 0px;
+  border: 0px;
+  padding: 0px;
+}
+
+.wrapper {
+  padding: 24px;
+}
+
+.header {
+}
+
+.headerHeader {
+  font-size: 24px;
+}
+
+.body {
+  margin-top: 24px;
+}
+
+.bodyHeader {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.bodyRow {
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.bodyRow > div:nth-child(2) {
+  margin-left: 12px;
+}

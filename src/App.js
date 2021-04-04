@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import s from './App.css'
+import s from './App.module.css'
 
 const initialState = {
   iFarmersCount: 0,
@@ -49,19 +49,17 @@ const FarmBaseBuildingTime = 15
 const FarmBaseCost = 60
 
 const App = () => {
-  const [
-    {
-      iFarmersCount,
-      iForagersCount,
-      iHuntersCount,
-      iShepherdsCount,
-      iFishermansCount,
-      iLumberjackCount,
-      iMinersCount,
-      iStoneCollectorsCount
-    },
-    setState
-  ] = useState(initialState)
+  const [state, setState] = useState(initialState)
+  const {
+    iFarmersCount,
+    iForagersCount,
+    iHuntersCount,
+    iShepherdsCount,
+    iFishermansCount,
+    iLumberjackCount,
+    iMinersCount,
+    iStoneCollectorsCount
+  } = state
   let CalculatedFarmProductionRate = BaseFarmerGatheringRate * WheelbarrowMod * HandCartMod
   CalculatedFarmProductionRate = CalculatedFarmProductionRate > 0.44 ? 0.44 : CalculatedFarmProductionRate
   const CalculatedFoodRate =
@@ -94,31 +92,64 @@ const App = () => {
   const FarmFoodAmount = FarmBaseFoodAmount + HorseCollarMod + HeavyPlowMod + CropRotationMod
   const FarmLivingTime = FarmFoodAmount / CalculatedFarmProductionRate + FarmBaseBuildingTime
   const FarmWoodCostRate = FarmBaseCost * iFarmersCount * (60 / FarmLivingTime)
+  const handleChange = e => setState({ ...state, [e.target.name]: e.target.value })
   return (
-    <div>
-      <div>
-        <div>Рейты</div>
+    <div className={s.wrapper}>
+      <div className={s.header}>
+        <div className={s.bodyHeader}>Рейты</div>
+        <div className={s.bodyRow}>
+          <input value={iFarmersCount} name='iFarmersCount' onChange={handleChange} />
+          <div>фермеров</div>
+        </div>
+        <div className={s.bodyRow}>
+          <input value={iForagersCount} name='iForagersCount' onChange={handleChange} />
+          <div>фуражиров</div>
+        </div>
+        <div className={s.bodyRow}>
+          <input value={iHuntersCount} name='iHuntersCount' onChange={handleChange} />
+          <div>охотников</div>
+        </div>
+        <div className={s.bodyRow}>
+          <input value={iShepherdsCount} name='iShepherdsCount' onChange={handleChange} />
+          <div>пастухов</div>
+        </div>
+        <div className={s.bodyRow}>
+          <input value={iFishermansCount} name='iFishermansCount' onChange={handleChange} />
+          <div>рыбаков</div>
+        </div>
+        <div className={s.bodyRow}>
+          <input value={iLumberjackCount} name='iLumberjackCount' onChange={handleChange} />
+          <div>дровосеков</div>
+        </div>
+        <div className={s.bodyRow}>
+          <input value={iMinersCount} name='iMinersCount' onChange={handleChange} />
+          <div>золотодобытчиков</div>
+        </div>
+        <div className={s.bodyRow}>
+          <input value={iStoneCollectorsCount} name='iStoneCollectorsCount' onChange={handleChange} />
+          <div>горняков</div>
+        </div>
       </div>
-      <div>
-        <div>Значения</div>
-        <div>
-          <div>{CalculatedFoodRate}</div>
+      <div className={s.body}>
+        <div className={s.bodyHeader}>Значения</div>
+        <div className={s.bodyRow}>
+          <div>{CalculatedFoodRate * 60}</div>
           <div>пищи/мин</div>
         </div>
-        <div>
-          <div>{CalculatedWoodRate}</div>
+        <div className={s.bodyRow}>
+          <div>{CalculatedWoodRate * 60}</div>
           <div>дерева/мин</div>
         </div>
-        <div>
-          <div>{CalculatedGoldRate}</div>
+        <div className={s.bodyRow}>
+          <div>{CalculatedGoldRate * 60}</div>
           <div>золота/мин</div>
         </div>
-        <div>
-          <div>{CalculatedStoneRate}</div>
+        <div className={s.bodyRow}>
+          <div>{CalculatedStoneRate * 60}</div>
           <div>камня/мин</div>
         </div>
-        <div>
-          <div>{CalculatedFoodRate}</div>
+        <div className={s.bodyRow}>
+          <div>{FarmWoodCostRate}</div>
           <div>дерева/мин на содержание ферм</div>
         </div>
       </div>
