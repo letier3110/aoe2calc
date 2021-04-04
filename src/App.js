@@ -25,8 +25,8 @@ const ForagerWalkingFactor = 1
 const HunterWalkingFactor = 1
 const ShepherdWalkingFactor = 1
 const FishermanWalkingFactor = 1
-const LumberjackWalkingFactor = 1
-const AllMinerWalkingFactor = 1
+// const LumberjackWalkingFactor = 1
+// const AllMinerWalkingFactor = 1
 //wood upgrades
 const DoubleAxeMod = 1
 const BowSawMod = 1
