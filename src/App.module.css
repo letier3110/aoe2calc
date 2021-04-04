@@ -25,6 +25,7 @@ body {
 }
 
 .bodyRow {
+  height: 40px;
   margin-bottom: 4px;
   display: flex;
   align-items: center;
@@ -32,4 +33,21 @@ body {
 
 .bodyRow > div:nth-child(2) {
   margin-left: 12px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex1 {
+  flex: 1;
+}
+.flex2 {
+  flex: 2;
+}
+
+.flexRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

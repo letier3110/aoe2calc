@@ -9,7 +9,24 @@ const initialState = {
   iFishermansCount: 0,
   iLumberjackCount: 0,
   iMinersCount: 0,
-  iStoneCollectorsCount: 0
+  iStoneCollectorsCount: 0,
+  //wood upgrades
+  DoubleAxeMod: 1,
+  BowSawMod: 1,
+  TwoManSawMod: 1,
+  //gold upgrades
+  GoldMiningMod: 1,
+  GoldShaftMiningMod: 1,
+  //stone upgrades
+  StoneMiningMod: 1,
+  StoneShaftMiningMod: 1,
+  //carts
+  WheelbarrowMod: 1,
+  HandCartMod: 1,
+  //Farms update
+  HorseCollarMod: 0,
+  HeavyPlowMod: 0,
+  CropRotationMod: 0
 }
 
 const BaseFarmerGatheringRate = 0.32
@@ -27,23 +44,7 @@ const ShepherdWalkingFactor = 1
 const FishermanWalkingFactor = 1
 // const LumberjackWalkingFactor = 1
 // const AllMinerWalkingFactor = 1
-//wood upgrades
-const DoubleAxeMod = 1
-const BowSawMod = 1
-const TwoManSawMod = 1
-//gold upgrades
-const GoldMiningMod = 1
-const GoldShaftMiningMod = 1
-//stone upgrades
-const StoneMiningMod = 1
-const StoneShaftMiningMod = 1
-//carts
-const WheelbarrowMod = 1
-const HandCartMod = 1
-//Farms data
-const HorseCollarMod = 0
-const HeavyPlowMod = 0
-const CropRotationMod = 0
+//FarmsData
 const FarmBaseFoodAmount = 175
 const FarmBaseBuildingTime = 15
 const FarmBaseCost = 60
@@ -58,8 +59,40 @@ const App = () => {
     iFishermansCount,
     iLumberjackCount,
     iMinersCount,
-    iStoneCollectorsCount
+    iStoneCollectorsCount,
+    //wood upgrades
+    DoubleAxeMod,
+    BowSawMod,
+    TwoManSawMod,
+    //gold upgrades
+    GoldMiningMod,
+    GoldShaftMiningMod,
+    //stone upgrades
+    StoneMiningMod,
+    StoneShaftMiningMod,
+    //carts
+    WheelbarrowMod,
+    HandCartMod,
+    //Farms update
+    HorseCollarMod,
+    HeavyPlowMod,
+    CropRotationMod
   } = state
+
+  const DoubleBitAxe_CheckedChanged = e => handleChangeCheck(e.target.name, !e.target.checked ? 1 : 1.2)
+  const BowSaw_CheckedChanged = e => handleChangeCheck(e.target.name, !e.target.checked ? 1 : 1.2)
+  const TwoManSaw_CheckedChanged = e => handleChangeCheck(e.target.name, !e.target.checked ? 1 : 1.1)
+  const GoldMining_CheckedChanged = e => handleChangeCheck(e.target.name, !e.target.checked ? 1 : 1.15)
+  const GoldShaftMining_CheckedChanged = e => handleChangeCheck(e.target.name, !e.target.checked ? 1 : 1.15)
+  const StoneMining_CheckedChanged = e => handleChangeCheck(e.target.name, !e.target.checked ? 1 : 1.15)
+  const StoneShaftMining_CheckedChanged = e => handleChangeCheck(e.target.name, !e.target.checked ? 1 : 1.15)
+  // const Wheelbarrow_CheckedChanged = e => {}
+  // const HandCart_CheckedChanged = e => {}
+  const HorseCollar_CheckedChanged = e => handleChangeCheck(e.target.name, 75)
+  const HeavyPlow_CheckedChanged = e => handleChangeCheck(e.target.name, 125)
+  const CropRotation_CheckedChanged = e => handleChangeCheck(e.target.name, 175)
+
+  //calculations
   let CalculatedFarmProductionRate = BaseFarmerGatheringRate * WheelbarrowMod * HandCartMod
   CalculatedFarmProductionRate = CalculatedFarmProductionRate > 0.44 ? 0.44 : CalculatedFarmProductionRate
   const CalculatedFoodRate =
@@ -93,59 +126,160 @@ const App = () => {
   const FarmLivingTime = FarmFoodAmount / CalculatedFarmProductionRate + FarmBaseBuildingTime
   const FarmWoodCostRate = FarmBaseCost * iFarmersCount * (60 / FarmLivingTime)
   const handleChange = e => setState({ ...state, [e.target.name]: e.target.value })
+  const handleChangeCheck = (n, v) => setState({ ...state, [n]: v })
   return (
     <div className={s.wrapper}>
       <div className={s.header}>
         <div className={s.bodyHeader}>Рейты</div>
-        <div className={s.bodyRow}>
-          <input value={iFarmersCount} name='iFarmersCount' onChange={handleChange} />
-          <div>фермеров</div>
-        </div>
-        <div className={s.bodyRow}>
-          <input value={iForagersCount} name='iForagersCount' onChange={handleChange} />
-          <div>фуражиров</div>
-        </div>
-        <div className={s.bodyRow}>
-          <input value={iHuntersCount} name='iHuntersCount' onChange={handleChange} />
-          <div>охотников</div>
-        </div>
-        <div className={s.bodyRow}>
-          <input value={iShepherdsCount} name='iShepherdsCount' onChange={handleChange} />
-          <div>пастухов</div>
-        </div>
-        <div className={s.bodyRow}>
-          <input value={iFishermansCount} name='iFishermansCount' onChange={handleChange} />
-          <div>рыбаков</div>
-        </div>
-        <div className={s.bodyRow}>
-          <input value={iLumberjackCount} name='iLumberjackCount' onChange={handleChange} />
-          <div>дровосеков</div>
-        </div>
-        <div className={s.bodyRow}>
-          <input value={iMinersCount} name='iMinersCount' onChange={handleChange} />
-          <div>золотодобытчиков</div>
-        </div>
-        <div className={s.bodyRow}>
-          <input value={iStoneCollectorsCount} name='iStoneCollectorsCount' onChange={handleChange} />
-          <div>горняков</div>
+        <div className={s.flex}>
+          <div className={s.flex1}>
+            <div className={s.bodyRow}>
+              <input value={iFarmersCount} name='iFarmersCount' onChange={handleChange} />
+              <div>фермеров</div>
+            </div>
+            <div className={s.bodyRow}>
+              <input value={iForagersCount} name='iForagersCount' onChange={handleChange} />
+              <div>фуражиров</div>
+            </div>
+            <div className={s.bodyRow}>
+              <input value={iHuntersCount} name='iHuntersCount' onChange={handleChange} />
+              <div>охотников</div>
+            </div>
+            <div className={s.bodyRow}>
+              <input value={iShepherdsCount} name='iShepherdsCount' onChange={handleChange} />
+              <div>пастухов</div>
+            </div>
+            <div className={s.bodyRow}>
+              <input value={iFishermansCount} name='iFishermansCount' onChange={handleChange} />
+              <div>рыбаков</div>
+            </div>
+            <div className={s.bodyRow}>
+              <input value={iLumberjackCount} name='iLumberjackCount' onChange={handleChange} />
+              <div>дровосеков</div>
+            </div>
+            <div className={s.bodyRow}>
+              <input value={iMinersCount} name='iMinersCount' onChange={handleChange} />
+              <div>золотодобытчиков</div>
+            </div>
+            <div className={s.bodyRow}>
+              <input value={iStoneCollectorsCount} name='iStoneCollectorsCount' onChange={handleChange} />
+              <div>горняков</div>
+            </div>
+          </div>
+          <div className={s.flex2}>
+            <div className={s.flexRow}>
+              <div className={s.bodyRow}>
+                <input
+                  type='checkbox'
+                  value={HorseCollarMod}
+                  name='HorseCollarMod'
+                  onChange={HorseCollar_CheckedChanged}
+                />
+                <div>Хомут</div>
+              </div>
+              <div className={s.bodyRow}>
+                <input type='checkbox' value={HeavyPlowMod} name='HeavyPlowMod' onChange={HeavyPlow_CheckedChanged} />
+                <div>Тяжелый плуг</div>
+              </div>
+              <div className={s.bodyRow}>
+                <input
+                  type='checkbox'
+                  value={CropRotationMod}
+                  name='CropRotationMod'
+                  onChange={CropRotation_CheckedChanged}
+                />
+                <div>Севооборот</div>
+              </div>
+            </div>
+            <div className={s.flexRow}>
+              <div className={s.bodyRow}></div>
+            </div>
+            <div className={s.flexRow}>
+              <div className={s.bodyRow}></div>
+            </div>
+            <div className={s.flexRow}>
+              <div className={s.bodyRow}></div>
+            </div>
+            <div className={s.bodyRow}></div>
+
+            <div className={s.flexRow}>
+              <div className={s.bodyRow}>
+                <input
+                  type='checkbox'
+                  value={DoubleAxeMod}
+                  name='DoubleAxeMod'
+                  onChange={DoubleBitAxe_CheckedChanged}
+                />
+                <div>Двуострый топор</div>
+              </div>
+              <div className={s.bodyRow}>
+                <input type='checkbox' value={BowSawMod} name='BowSawMod' onChange={BowSaw_CheckedChanged} />
+                <div>Лучковая пила</div>
+              </div>
+              <div className={s.bodyRow}>
+                <input type='checkbox' value={TwoManSawMod} name='TwoManSawMod' onChange={TwoManSaw_CheckedChanged} />
+                <div>Двуручная пила</div>
+              </div>
+            </div>
+            <div className={s.flexRow}>
+              <div className={s.bodyRow}>
+                <input
+                  type='checkbox'
+                  value={GoldMiningMod}
+                  name='GoldMiningMod'
+                  onChange={GoldMining_CheckedChanged}
+                />
+                <div>Золотодобыча</div>
+              </div>
+              <div className={s.bodyRow}>
+                <input
+                  type='checkbox'
+                  value={GoldShaftMiningMod}
+                  name='GoldShaftMiningMod'
+                  onChange={GoldShaftMining_CheckedChanged}
+                />
+                <div>Золотые рудники</div>
+              </div>
+            </div>
+            <div className={s.flexRow}>
+              <div className={s.bodyRow}>
+                <input
+                  type='checkbox'
+                  value={StoneMiningMod}
+                  name='StoneMiningMod'
+                  onChange={StoneMining_CheckedChanged}
+                />
+                <div>Каменоломни</div>
+              </div>
+              <div className={s.bodyRow}>
+                <input
+                  type='checkbox'
+                  value={StoneShaftMiningMod}
+                  name='StoneShaftMiningMod'
+                  onChange={StoneShaftMining_CheckedChanged}
+                />
+                <div>Каменные рудники</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div className={s.body}>
         <div className={s.bodyHeader}>Значения</div>
         <div className={s.bodyRow}>
-          <div>{CalculatedFoodRate * 60}</div>
+          <div>{(CalculatedFoodRate * 60).toFixed(0)}</div>
           <div>пищи/мин</div>
         </div>
         <div className={s.bodyRow}>
-          <div>{CalculatedWoodRate * 60}</div>
+          <div>{(CalculatedWoodRate * 60).toFixed(0)}</div>
           <div>дерева/мин</div>
         </div>
         <div className={s.bodyRow}>
-          <div>{CalculatedGoldRate * 60}</div>
+          <div>{(CalculatedGoldRate * 60).toFixed(0)}</div>
           <div>золота/мин</div>
         </div>
         <div className={s.bodyRow}>
-          <div>{CalculatedStoneRate * 60}</div>
+          <div>{(CalculatedStoneRate * 60).toFixed(0)}</div>
           <div>камня/мин</div>
         </div>
         <div className={s.bodyRow}>
